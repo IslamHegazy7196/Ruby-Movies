@@ -1,6 +1,13 @@
 <h1>All Movies</h1>
+
+<%= form_for :search, url: movies_path, method: :get do |f| %>
+  <%= f.text_field :actor, placeholder: 'Enter actor name' %>
+  <%= f.submit 'Search' %>
+<% end %>
+
 <ul>
   <% @movies.each do |movie| %>
-    <li><%= movie.title %></li>
+    <li><%= movie.title %> - <%= movie.actor %></li>
+    <p>Average Rating: <%= average_rating(movie) %></p>
   <% end %>
 </ul>
