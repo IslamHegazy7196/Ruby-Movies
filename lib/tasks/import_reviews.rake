@@ -9,10 +9,10 @@ namespace :import do
 
     CSV.foreach(csv_file, headers: true) do |row|
       Review.create!(
-        movie_id: Movie.find_by(title: row['movie']).id,
-        user: row['user'],
-        stars: row['stars'],
-        review: row['review']
+        movie_id: Movie.find_by(title: row['Movie']).id,
+        user: row['User'],
+        stars: row['Stars'],
+        review: row['Review']
       )
     end
   end

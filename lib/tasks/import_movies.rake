@@ -7,13 +7,13 @@ namespace :import do
 
     CSV.foreach(csv_file, headers: true) do |row|
       Movie.create!(
-        title: row['title'],
-        description: row['description'],
-        year: row['year'],
-        director: row['director'],
-        actor: row['actor'],
-        filming_location: row['filming_location'],
-        country: row['country']
+        title: row['Movie'].presence || 'Default Title',
+        description: row['Description'],
+        year: row['Year'],
+        director: row['Director'],
+        actor: row['Actor'],
+        filming_location: row['Filming location'],
+        country: row['Country']
       )
     end
   end
