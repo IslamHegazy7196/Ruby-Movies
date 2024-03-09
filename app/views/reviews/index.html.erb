@@ -1,0 +1,6 @@
+<h1>All Reviews</h1>
+<ul>
+  <% @reviews.each do |review| %>
+    <li><%= review.user %> - <%= review.stars %> stars</li>
+  <% end %>
+</ul>
