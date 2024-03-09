@@ -1,13 +1,40 @@
-<h1>All Movies</h1>
+<% if @movies.present? %>
+  <h1 style='color: #333; text-align: center;'>All Movies</h1>
 
-<%= form_for :search, url: movies_path, method: :get do |f| %>
-  <%= f.text_field :actor, placeholder: 'Enter actor name' %>
-  <%= f.submit 'Search' %>
-<% end %>
-
-<ul>
-  <% @movies.each do |movie| %>
-    <li><%= movie.title %> - <%= movie.actor %></li>
-    <p>Average Rating: <%= average_rating(movie) %></p>
+  <%= form_for :search, url: movies_path, method: :get do |f| %>
+    <div style='text-align: center; margin-bottom: 20px;'>
+      <%= f.search_field :actor, placeholder: 'Enter actor name', style: 'padding: 5px;' %>
+      <%= f.submit 'Search', style: 'padding: 5px 10px; background-color: #007BFF; color: #fff; border: none; border-radius: 3px; cursor: pointer;' %>
+      <%= button_to 'Clear Search', movies_path(search: nil), method: :get, style: 'padding: 5px 10px; background-color: #dc3545; color: #fff; border: none; border-radius: 3px; cursor: pointer;' %>
+    </div>
   <% end %>
-</ul>
+
+  <ul style='list-style-type: none; padding: 0;'>
+    <% @movies.each do |movie| %>
+      <li style='margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;'>
+        <strong><%= movie.title %></strong> - <%= movie.actor %>
+        <p><strong>Description:</strong> <%= movie.description %></p>
+        <p><strong>Year:</strong> <%= movie.year %></p>
+        <p><strong>Director:</strong> <%= movie.director %></p>
+        <p><strong>Filming Location:</strong> <%= movie.filming_location %></p>
+        <p><strong>Country:</strong> <%= movie.country %></p>
+        <p style='margin-top: 5px;'>Average Rating: <%= average_rating(movie) %></p>
+        <%= link_to 'Read Reviews', reviews_path(movie_id: movie.id), style: 'text-decoration: none; color: #28a745; font-weight: bold;' %>
+      </li>
+    <% end %>
+  </ul>
+
+<% else %>
+
+  <h1 style='color: #333; text-align: center;'>All Movies</h1>
+
+  <%= form_for :search, url: movies_path, method: :get do |f| %>
+    <div style='text-align: center; margin-bottom: 20px;'>
+      <%= f.search_field :actor, placeholder: 'Enter actor name', style: 'padding: 5px;' %>
+      <%= f.submit 'Search', style: 'padding: 5px 10px; background-color: #007BFF; color: #fff; border: none; border-radius: 3px; cursor: pointer;' %>
+      <%= button_to 'Clear Search', movies_path(search: nil), method: :get, style: 'padding: 5px 10px; background-color: #dc3545; color: #fff; border: none; border-radius: 3px; cursor: pointer;' %>
+    </div>
+  <% end %>
+    <h1 style='color: #333; text-align: center;'>No Movies Found</h1>
+
+<% end %>

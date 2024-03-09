@@ -1,6 +1,22 @@
-<h1>All Reviews</h1>
-<ul>
-  <% @reviews.each do |review| %>
-    <li><%= review.user %> - <%= review.stars %> stars</li>
-  <% end %>
-</ul>
+<% if @reviews.present? %>
+  <% # Display the title before the loop since it remains the same for all reviews %>
+  <h1 style='color: #333; text-align: center;'><%= @movies.find(@reviews.first.movie_id).title %> - All Reviews</h1>
+
+  <ul style='list-style-type: none; padding: 0;'>
+    <% @reviews.each do |review| %>
+      <li style='margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;'>
+        <strong><%= review.user %></strong> - <%= review.stars %> stars
+        <p><em>Movie:</em> <%= @movies.find(review.movie_id).title %></p> 
+        <p><em>Review:</em> <%= review.review %></p>
+      </li>
+    <% end %>
+  </ul>
+
+<% else %>
+  <h1 style='color: #333; text-align: center;'>All Reviews</h1>
+  <p style='text-align: center; color: #888;'>No reviews available.</p>
+<% end %>
+
+
+  <% # Add a link to go back to all movies path %>
+  <%= link_to 'Back to All Movies', movies_path, style: 'display: block; text-align: center; margin-top: 15px;' %>
