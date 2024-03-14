@@ -12,11 +12,13 @@ namespace :import do
       Movie.transaction do
         CSV.foreach(csv_file, headers: true).each_slice(batch_size) do |rows_batch|
           rows_batch.each do |row|
-            movie = Movie.new(
+            director_name = row['Director']
+            director = Director.find_or_create_by(name: director_name)
+
+            movie = director.movies.new(
               title: row['Movie'].presence || 'Default Title',
               description: row['Description'],
               year: row['Year'],
-              director: row['Director'],
               actor: row['Actor'],
               filming_location: row['Filming location'],
               country: row['Country']

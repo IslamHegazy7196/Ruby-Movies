@@ -10,16 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20240309121249) do
+ActiveRecord::Schema.define(version: 20240314154218) do
+
+  create_table "directors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "movies", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.integer "year"
-    t.string "director"
+    t.integer "director_id"
     t.string "actor"
     t.string "filming_location"
     t.string "country"
+    t.index ["director_id"], name: "index_movies_on_director_id"
   end
 
   create_table "reviews", force: :cascade do |t|

@@ -4,7 +4,7 @@ class CreateMovies < ActiveRecord::Migration[5.1]
       t.string :title
       t.text :description
       t.integer :year
-      t.string :director
+      t.references :director, foreign_key: true
       t.string :actor
       t.string :filming_location
       t.string :country
