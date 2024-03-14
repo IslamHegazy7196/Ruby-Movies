@@ -16,22 +16,32 @@ namespace :import do
             movie = director.movies.new(
               title: row['Movie'].presence || 'Default Title',
               description: row['Description'],
-              year: row['Year'],
-              filming_location: row['Filming location'],
-              country: row['Country']
+              year: row['Year']
             )
 
             unless movie.valid?
               puts "Validation failed for movie with title: #{movie.title}. Errors: #{movie.errors.full_messages.join(', ')}"
               next
             end
+            # Create or find filming locations and associate with the movie
+            locations_names = row['Filming location'].split(',') # Assuming locations are comma-separated
+            locations = locations_names.map do |location_name|
+              FilmingLocation.find_or_create_by(name: location_name.strip, country: row['Country'].strip) # Strip whitespace
+            end
 
+            # Save the filming locations to add them to the database
+            locations.each(&:save)
+
+            # Associate locations with the movie
+            locations.each do |location|
+              MovieFilmingLocation.create(movie: movie, filming_location: location)
+            end
+
+            # Create or find actors and associate with the movie
             actors_names = row['Actor'].split(',') # Assuming actors are comma-separated
             actors = actors_names.map do |actor_name|
               Actor.find_or_create_by(name: actor_name.strip) # Strip whitespace
             end
-
-            movie.save!
 
             actors.each do |actor|
               movie.appearances.create(actor: actor)
@@ -44,3 +54,5 @@ namespace :import do
     end
   end
 end
+
+#  chunk -try catch - validation layer - relation transaction (isolated)-gem activerecord importer(bulk insert)-background job
