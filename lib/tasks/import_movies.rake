@@ -1,5 +1,3 @@
-# lib/tasks/import_movies.rake
-
 require 'csv'
 
 namespace :import do
@@ -19,7 +17,6 @@ namespace :import do
               title: row['Movie'].presence || 'Default Title',
               description: row['Description'],
               year: row['Year'],
-              actor: row['Actor'],
               filming_location: row['Filming location'],
               country: row['Country']
             )
@@ -29,7 +26,16 @@ namespace :import do
               next
             end
 
+            actors_names = row['Actor'].split(',') # Assuming actors are comma-separated
+            actors = actors_names.map do |actor_name|
+              Actor.find_or_create_by(name: actor_name.strip) # Strip whitespace
+            end
+
             movie.save!
+
+            actors.each do |actor|
+              movie.appearances.create(actor: actor)
+            end
           end
         end
       end
@@ -38,5 +44,3 @@ namespace :import do
     end
   end
 end
-
-#  chunk -try catch - validation layer - relation transaction (isolated)-gem activerecord importer(bulk insert)-background job
