@@ -12,12 +12,12 @@
   <ul style='list-style-type: none; padding: 0;'>
     <% @movies.each do |movie| %>
       <li style='margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;'>
-        <strong><%= movie.title %></strong> - <%= movie.actor %>
+        <strong><%= movie.title %></strong> - <%= movie.actors.first.name %>
         <p><strong>Description:</strong> <%= movie.description %></p>
         <p><strong>Year:</strong> <%= movie.year %></p>
-        <p><strong>Director:</strong> <%= movie.director %></p>
-        <p><strong>Filming Location:</strong> <%= movie.filming_location %></p>
-        <p><strong>Country:</strong> <%= movie.country %></p>
+        <p><strong>Director:</strong> <%= movie.director.name %></p>
+        <p><strong>Filming Location:</strong> <%= movie.filming_locations.first.name %></p>
+        <p><strong>Country:</strong> <%= movie.filming_locations.first.country %></p>
         <p style='margin-top: 5px;'>Average Rating: <%= average_rating(movie) %></p>
         <%= link_to 'Read Reviews', reviews_path(movie_id: movie.id), style: 'text-decoration: none; color: #28a745; font-weight: bold;' %>
       </li>
