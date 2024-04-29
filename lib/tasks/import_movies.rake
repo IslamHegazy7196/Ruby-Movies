@@ -8,3 +8,5 @@ namespace :import do
     ImportMoviesWorker.perform_async
   end
 end
+
+#  chunk -try catch - validation layer - relation transaction (isolated)-gem activerecord importer(bulk insert)-background job
